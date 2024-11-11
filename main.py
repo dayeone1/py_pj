@@ -1,13 +1,15 @@
 import pygame, sys
-from pygame.locals import QUIT,MOUSEBUTTONDOWN
+from pygame.locals import QUIT,MOUSEBUTTONDOWN # 창 닫기에 사용
 from story import Dialogue
 from system import Button, ScreenChange
+from stage import StageCheck
 
 # Pygame 초기화
 pygame.init()
 clock = pygame.time.Clock()
 dialogue = Dialogue()
 screenChange = ScreenChange()
+stageCheck = StageCheck()
 
 
 # 사용할 이미지 초기화
@@ -23,7 +25,7 @@ screen = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption('TriColor_King')
 
 # 버튼 인스턴스 생성 (시작 화면 버튼)
-stage_button = Button("STAGE", start_button_on, start_button_act, 420, 395, 360, 60, lambda: print("STAGE 버튼 클릭됨"))
+stage_button = Button("STAGE", start_button_on, start_button_act, 420, 395, 360, 60, lambda: screenChange.setScreen(2))
 story_button = Button("STORY", start_button_on, start_button_act, 420, 485, 360, 60, lambda: screenChange.setScreen(1))  # 스토리 버튼 클릭 시 화면 전환
 exit_button = Button("EXIT", start_button_on, start_button_act, 420, 575, 360, 60, pygame.quit)
 
@@ -50,7 +52,7 @@ while start:
         dialogue.show_story(screen)  # 대사 표시
         
     elif screenChange.getScreen() == 2:
-        print("2")
+        stageCheck.show_stage(screen)
         
     # 화면 업데이트
     pygame.display.flip()

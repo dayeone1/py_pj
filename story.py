@@ -1,5 +1,6 @@
 import pygame, pymysql
 from system import Button, ScreenChange
+from character import Red, Blue, Yellow
 
 class Dialogue:
     
@@ -8,6 +9,7 @@ class Dialogue:
         self.text_bar = pygame.image.load("img/interface/text_bar.png")
         self.name_bar = pygame.image.load("img/interface/name_bar.png")
         self.background = pygame.image.load("img/back/tree_1.png")
+        self.background1 = pygame.image.load("img/back/story.png")
         self.next_botton = pygame.image.load("img/interface/next_botton.png")
 
         self.dialogues = []  # 대사 리스트 초기화
@@ -17,6 +19,9 @@ class Dialogue:
         self.current_index = 0  # 현재 대사 인덱스
         self.next = Button("", self.next_botton, self.next_botton, 1090, 600, 40, 40, self.next_dialogue) # 대사 전환 버튼
         
+        self.red = Red()
+        self.yellow = Yellow()
+        self.blue = Blue()
         
     def load_dialogues(self):
         # MySQL 데이터베이스에 연결
@@ -61,21 +66,34 @@ class Dialogue:
         return "이름 출력 끝"
 
     def show_story(self, screen):
-        screen.fill((0, 0, 0))  # 배경 표시
-        screen.blit(self.text_bar, (50, 460))
+        # 표시
+        if(self.current_index < 3): # 배경
+            screen.fill((0, 0, 0))
+        elif(self.current_index < 6):
+            screen.blit(self.background1, (0, 0))
+        else:
+            screen.blit(self.background, (0, 0))    
+            if(self.get_current_name() == "빨강이"):
+                screen.blit(self.red.getMainImg(), (570, 10))
+            elif(self.get_current_name() == "노랑이"):
+                screen.blit(self.yellow.getMainImg(), (570, 10))
+            elif(self.get_current_name() == "파랑이"):
+                screen.blit(self.blue.getMainImg(), (570, 10))
+            
+        screen.blit(self.text_bar, (50, 460)) # 대사창
         
         # 대사 표시 위치 조정 (하단)
         font = pygame.font.SysFont("malgungothic", 24)
         text = font.render(self.get_current_dialogue(), True, (0, 0, 0))  # 대사 텍스트 색상 검정으로 변경
         text_rect = text.get_rect(center=(screen.get_width() // 2, screen.get_height() - 150))  # 하단 중앙
-        screen.blit(text, text_rect)  # 대사 표시
+        screen.blit(text, text_rect)  # 대사
         
-        screen.blit(self.name_bar, (917, 423))  # 이름창 표시
+        screen.blit(self.name_bar, (917, 423))  # 이름창
         self.next.draw(screen)
         
-        # 이름 표시
+        # 이름
         name_text = font.render(self.get_current_name(), True, (0, 0, 0))  # 이름 텍스트 색상 검정으로 변경
         name_rect = name_text.get_rect(x = 980, y = 435)  # 이름 표시 위치 조정
-        screen.blit(name_text, name_rect)  # 이름 표시
+        screen.blit(name_text, name_rect)
         
         
