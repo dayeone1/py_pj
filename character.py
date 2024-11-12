@@ -5,14 +5,17 @@ class Character:
     def __init__(self):     
         self.stamina = 100
         self.color = ""
+        self.color_img = None
         self.main_img = None 
         self.ain_img = []
     
     def getMainImg(self):
         return self.main_img
+    def attack(self, i, j):
+        return None
 
 
-# player character
+# player 캐릭터
 class Red(Character):
     def __init__(self):
         super().__init__()

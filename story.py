@@ -10,7 +10,7 @@ class Dialogue:
         self.name_bar = pygame.image.load("img/interface/name_bar.png")
         self.background = pygame.image.load("img/back/tree_1.png")
         self.background1 = pygame.image.load("img/back/story.png")
-        self.next_botton = pygame.image.load("img/interface/next_botton.png")
+        self.next_botton = pygame.image.load("img/interface/next_button.png")
 
         self.dialogues = []  # 대사 리스트 초기화
         self.names = []  # 이름 리스트 초기화

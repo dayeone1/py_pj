@@ -2,7 +2,7 @@ import pygame, sys
 from pygame.locals import QUIT,MOUSEBUTTONDOWN # 창 닫기에 사용
 from story import Dialogue
 from system import Button, ScreenChange
-from stage import StageCheck
+from stages import StageCheck
 
 # Pygame 초기화
 pygame.init()
@@ -14,8 +14,8 @@ stageCheck = StageCheck()
 
 # 사용할 이미지 초기화
 background = pygame.image.load("img/back/tree.png")
-start_button_on = pygame.image.load("img/interface/start_botton.png")
-start_button_act = pygame.image.load("img/interface/start_botton_click.png")
+start_button_on = pygame.image.load("img/interface/start_button.png")
+start_button_act = pygame.image.load("img/interface/start_button_click.png")
 
 bgm = pygame.mixer.Sound("img/bgm.wav")
 
@@ -24,10 +24,13 @@ WIDTH, HEIGHT = 1200, 700
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption('TriColor_King')
 
-# 버튼 인스턴스 생성 (시작 화면 버튼)
-stage_button = Button("STAGE", start_button_on, start_button_act, 420, 395, 360, 60, lambda: screenChange.setScreen(2))
-story_button = Button("STORY", start_button_on, start_button_act, 420, 485, 360, 60, lambda: screenChange.setScreen(1))  # 스토리 버튼 클릭 시 화면 전환
-exit_button = Button("EXIT", start_button_on, start_button_act, 420, 575, 360, 60, pygame.quit)
+# 버튼 생성
+button_width = 360
+button_height = 60
+
+stage_button = Button("STAGE", start_button_on, start_button_act, 420, 395, button_width, button_height, lambda: screenChange.setScreen(2))
+story_button = Button("STORY", start_button_on, start_button_act, 420, 485, button_width, button_height, lambda: screenChange.setScreen(1))
+exit_button = Button("EXIT", start_button_on, start_button_act, 420, 575, button_width, button_height, pygame.quit)
 
 # 메인 루프
 start = True
@@ -53,6 +56,10 @@ while start:
         
     elif screenChange.getScreen() == 2:
         stageCheck.show_stage(screen)
+        
+    elif screenChange.getScreen() == 3:
+        print("3눌림")
+        
         
     # 화면 업데이트
     pygame.display.flip()
