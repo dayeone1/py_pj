@@ -2,33 +2,53 @@ import pygame
 import sys
 
 class Character: 
-    def __init__(self, color, main_img):     
+    def __init__(self, color, main_img, box, index, index_click):     
         self.stamina = 100
         self.color = color
         self.main_img = pygame.image.load(main_img)
+        self.box = pygame.image.load(box)
+        self.index = pygame.image.load(index)
+        self.index_click = pygame.image.load(index_click)
+        
+    def attack(self, i, j):
+        return None
     
     def getMainImg(self):
         return self.main_img
     
-    def attack(self, i, j):
-        return None
+    def getColor(self):
+        return self.color
+    
+    def getBox(self):
+        return self.box
+    
+    def getIndex(self):
+        return self.index
+    
+    def getIndexClick(self):
+        return self.index_click
+    
+    
 
 # player 캐릭터
 class Red(Character):
     def __init__(self):
-        super().__init__("red", "img/character/character_red.png")
+        super().__init__("red", "img/character/character_red.png", "img/interface/box_red.png",
+                         "img/interface/index_red.png", "img/interface/index_red_click.png")
 
 class Yellow(Character): 
     def __init__(self):
-        super().__init__("yellow", "img/character/character_yellow.png")
+        super().__init__("yellow", "img/character/character_yellow.png", "img/interface/box_yellow.png",
+                         "img/interface/index_yellow.png", "img/interface/index_yellow_click.png")
         
 class Blue(Character):
     def __init__(self):
-        super().__init__("blue", "img/character/character_blue.png")
+        super().__init__("blue", "img/character/character_blue.png", "img/interface/box_blue.png",
+                         "img/interface/index_blue.png", "img/interface/index_blue_click.png")
 
 class Table:
     def __init__(self):
-        self.base = pygame.image.load("img/tile/base.png")
+
         self.tile_white = pygame.image.load("img/tile/tile_white.png")
         self.tile_black = pygame.image.load("img/tile/tile_black.png")
         self.tile_red = pygame.image.load("img/tile/tile_red.png")
@@ -45,3 +65,6 @@ class Table:
             for j in range(0, 5):
                 self.tile[i][j] = self.tile_white
                 self.tile_color[i][j] = "white"
+                
+    def getTile(self, i, j):
+        return self.tile[i][j]

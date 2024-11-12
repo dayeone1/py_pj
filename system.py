@@ -44,4 +44,5 @@ class ScreenChange:
     
     def setScreen(self, changeNumber):
         ScreenChange.currentScreen = changeNumber
+        print(ScreenChange.currentScreen)
             

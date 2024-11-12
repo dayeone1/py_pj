@@ -18,12 +18,14 @@ class StageCheck:
         self.stages = []
         # stage_button 초기화
         for i in range(0, 6):
-            self.stages.append(Button(str(i+1), self.stage_button_on, self.stage_button_click, self.xy[i*2], self.xy[i*2+1], 160, 160, lambda: self.screenChange.setScreen(3+i)))
+            self.stages.append(Button(str(i+1), self.stage_button_on, self.stage_button_click, self.xy[i*2], self.xy[i*2+1], 
+                                      160, 160, lambda i=i: self.screenChange.setScreen(3+i)))
             
-        self.menu_button1 = Button("처음으로", self.menu_button_on, self.menu_button_click, 871, 29, 140, 70, lambda: self.screenChange.setScreen(0))
+        self.menu_button1 = Button("처음으로", self.menu_button_on, self.menu_button_click, 
+                                   871, 29, 140, 70, lambda: self.screenChange.setScreen(0))
         
         
-    def show_stage(self, screen):
+    def show_stages(self, screen):
         
         pygame.event.wait(100)
         screen.blit(self.background, (0,0))

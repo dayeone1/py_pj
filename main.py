@@ -3,6 +3,7 @@ from pygame.locals import QUIT,MOUSEBUTTONDOWN # 창 닫기에 사용
 from story import Dialogue
 from system import Button, ScreenChange
 from stages import StageCheck
+from stage import *
 
 # Pygame 초기화
 pygame.init()
@@ -10,6 +11,7 @@ clock = pygame.time.Clock()
 dialogue = Dialogue()
 screenChange = ScreenChange()
 stageCheck = StageCheck()
+stage1 = Stage_1()
 
 
 # 사용할 이미지 초기화
@@ -55,10 +57,10 @@ while start:
         dialogue.show_story(screen)  # 대사 표시
         
     elif screenChange.getScreen() == 2:
-        stageCheck.show_stage(screen)
+        stageCheck.show_stages(screen)
         
     elif screenChange.getScreen() == 3:
-        print("3눌림")
+        stage1.show_stage(screen)
         
         
     # 화면 업데이트
