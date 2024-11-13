@@ -14,24 +14,25 @@ class Button:
         self.font = pygame.font.SysFont("font/h8514sys.fon", 30)
         self.sound = pygame.mixer.Sound("img/rock.wav")
 
-    def draw(self, surface):
+    def draw(self, screen):
         mouse = pygame.mouse.get_pos()  # 현재 마우스 위치 얻기
         click = pygame.mouse.get_pressed()  # 클릭 유무 얻기
 
         # 마우스 위치가 버튼 영역에 들어오면 클릭된 표시
         if self.rect.collidepoint(mouse):
-            surface.blit(self.img_act, (self.rect.x, self.rect.y))  # 마우스가 버튼 위일 때 이미지 변경
+            screen.blit(self.img_act, (self.rect.x, self.rect.y))  # 마우스가 버튼 위일 때 이미지 변경
             button_text = self.font.render(self.text, True, WHITE)
             if click[0] and self.action is not None:
                 self.action()  # 클릭 시 함수 실행
                 self.sound.play() # 효과음
+                pygame.time.delay(100)
         else:
-            surface.blit(self.img_in, (self.rect.x, self.rect.y))  # 기본 이미지 표시
+            screen.blit(self.img_in, (self.rect.x, self.rect.y))  # 기본 이미지 표시
             button_text = self.font.render(self.text, True, BLACK)
 
         # 버튼 텍스트 그리기
         text_rect = button_text.get_rect(center=self.rect.center)
-        surface.blit(button_text, text_rect)
+        screen.blit(button_text, text_rect)
     
     
 # 현재 화면 상태 확인
@@ -45,4 +46,21 @@ class ScreenChange:
     def setScreen(self, changeNumber):
         ScreenChange.currentScreen = changeNumber
         print(ScreenChange.currentScreen)
-            
+        
+class Music:
+    pygame.init()
+    bgm = pygame.mixer.Sound("img/bgm.wav")
+    def music_play(self):
+        Music.bgm.play(-1)
+    
+    def music_stop(self):
+        Music.bgm.stop()
+
+class Keys:
+    def __init__(self):
+        self.up = pygame.K_w
+        self.left = pygame.k_a
+        self.down = pygame.k_s
+        self.right = pygame.k_d
+        
+    

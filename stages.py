@@ -1,9 +1,10 @@
 import pygame
-from system import Button, ScreenChange
+from system import *
 
 class StageCheck:
     def __init__(self):
         self.screenChange = ScreenChange()
+        self.music = Music()
         
         # 이미지 로드
         self.background = pygame.image.load("img/back/tree_1.png")
@@ -23,15 +24,17 @@ class StageCheck:
             
         self.menu_button1 = Button("처음으로", self.menu_button_on, self.menu_button_click, 
                                    871, 29, 140, 70, lambda: self.screenChange.setScreen(0))
+        self.menu_button2 = Button("음악끄기", self.menu_button_on, self.menu_button_click, 
+                                   1042, 29, 140, 70, lambda: self.music.music_stop())
         
         
     def show_stages(self, screen):
         
-        pygame.event.wait(100)
         screen.blit(self.background, (0,0))
         screen.blit(self.line, (165,146))
         screen.blit(self.menu, (850, 16))
         self.menu_button1.draw(screen)
+        self.menu_button2.draw(screen)
         
         for stage in self.stages:
             stage.draw(screen) 

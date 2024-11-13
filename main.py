@@ -1,8 +1,8 @@
 import pygame, sys
 from pygame.locals import QUIT,MOUSEBUTTONDOWN # 창 닫기에 사용
 from story import Dialogue
-from system import Button, ScreenChange
-from stages import StageCheck
+from system import *
+from stages import *
 from stage import *
 
 # Pygame 초기화
@@ -12,14 +12,13 @@ dialogue = Dialogue()
 screenChange = ScreenChange()
 stageCheck = StageCheck()
 stage1 = Stage_1()
+music = Music()
 
 
 # 사용할 이미지 초기화
 background = pygame.image.load("img/back/tree.png")
 start_button_on = pygame.image.load("img/interface/start_button.png")
 start_button_act = pygame.image.load("img/interface/start_button_click.png")
-
-bgm = pygame.mixer.Sound("img/bgm.wav")
 
 # 창 크기 설정
 WIDTH, HEIGHT = 1200, 700
@@ -36,7 +35,8 @@ exit_button = Button("EXIT", start_button_on, start_button_act, 420, 575, button
 
 # 메인 루프
 start = True
-bgm.play(-1)
+music.music_play()
+
 while start:
     clock.tick(30)
     
@@ -54,7 +54,7 @@ while start:
         exit_button.draw(screen)
         
     elif screenChange.getScreen() == 1:
-        dialogue.show_story(screen)  # 대사 표시
+        dialogue.show_story(screen) 
         
     elif screenChange.getScreen() == 2:
         stageCheck.show_stages(screen)
