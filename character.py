@@ -18,12 +18,6 @@ class Character:
         # 캐릭터의 현재 위치
         self.location_x = 0
         self.location_y = 0
-        
-    def attack(self):
-        return None
-    
-    def move(self):
-        return None
     
     def getMainImg(self):
         return self.main_img

@@ -1,6 +1,7 @@
 import pygame
 from system import Button, ScreenChange
 from character import *
+from keys import Game_system
 
 class Table:
     def __init__(self):
@@ -30,32 +31,18 @@ class Table:
         self.tile_color[i][j] = color
 
 class Stage:
-    def __init__(self, stageNumber, color):
+    def __init__(self, stageNumber):
         self.background = pygame.image.load("img/back/tree_1.png")
         self.base = pygame.image.load("img/tile/base.png")
-        self.attack_on = pygame.image.load("img/interface/attack_button.png")
-        self.attack_click = pygame.image.load("img/interface/attack_button_click.png")
         
         self.stageNumber = stageNumber # 몇 번째 스테이지 인지 확인
-        self.color = color # 현재 선택된 컬러
-        self.colorSet = {
-            "Blue" : 0,
-            "Red" : 1,
-            "Yellow" : 2
-        }
-        self.xy = [(720, 470), (489, 7)] # 캐릭터, uiBox 좌표값
+      
+        self.blue = Blue()
+        self.red = Red()
+        self.yellow = Yellow()
         
         self.table = Table()
-        self.character = [Blue(), Red(), Yellow()]
-        
-        self.button_blue = Button("", self.character[0].getIndex(), self.character[0].getIndexClick(), 823, 395, 120, 75, lambda: self.setColor("Blue"))
-        self.button_red = Button("", self.character[1].getIndex(), self.character[1].getIndexClick(), 1062 , 395, 120, 75, lambda: self.setColor("Red"))
-        self.button_yellow = Button("", self.character[2].getIndex(), self.character[2].getIndexClick(), 942, 395, 120, 75, lambda: self.setColor("Yellow"))
-        self.button_move = Button("move", self.attack_on, self.attack_click, 755, 503, 410, 70, lambda: self.character[self.colorSet[self.color]].move())
-        self.button_attack = Button("attack", self.attack_on, self.attack_click, 755, 596, 410, 70, lambda: self.character[self.colorSet[self.color]].attack())
-        
-    def setColor(self, color):
-        self.color = color 
+        self.gameSystem = Game_system()
 
     def show_stage(self, screen):
         
@@ -67,37 +54,32 @@ class Stage:
             for j in range(5):
                 screen.blit(self.table.getTile(i, j), (103+94*i, 50+94*j)) # 첫번째 칸의 위치 + 두번째 칸과의 간격 * i
         
+        # 애니메이션을 구현 할려 했던......
         # while self.animaCheck:
         #     screen.blit(self.anima[frame], (107 + 94 * self.location_x, 32 + 94 * self.location_y)) 
         #     frame = (frame + 1) % len(self.anima)  # 프레임 업데이트
         #     pygame.display.update()  # 화면 업데이트
         #     pygame.time.wait(150)  # 150ms 대기
         
-        screen.blit(self.character[0].getAnima(), (107 + 94 * self.character[0].getLocationX(), 32 + 94 * self.character[0].getLocationY()))
-        screen.blit(self.character[1].getAnima(), (107 + 94 * self.character[1].getLocationX(), 32 + 94 * self.character[1].getLocationY()))
-        screen.blit(self.character[2].getAnima(), (107 + 94 * self.character[2].getLocationX(), 32 + 94 * self.character[2].getLocationY()))
+        screen.blit(self.blue.getAnima(), (107 + 94 * self.blue.getLocationX(), 32 + 94 * self.blue.getLocationY()))
+        screen.blit(self.red.getAnima(), (107 + 94 * self.red.getLocationX(), 32 + 94 * self.red.getLocationY()))
+        screen.blit(self.yellow.getAnima(), (107 + 94 * self.yellow.getLocationX(), 32 + 94 * self.yellow.getLocationY()))
         
-        screen.blit(self.character[self.colorSet[self.color]].getMainImg(), self.xy[1])
-        screen.blit(self.character[self.colorSet[self.color]].getBox(), self.xy[0])    
+        self.gameSystem.show(screen)
                 
-        self.button_blue.draw(screen)
-        self.button_red.draw(screen)
-        self.button_yellow.draw(screen)
-        self.button_move.draw(screen)
-        self.button_attack.draw(screen)
         
         
 class Stage_1(Stage):
     def __init__(self):
-        super().__init__(1, "Blue")
+        super().__init__(1)
     
     def show_stage(self, screen):
         self.table.setTile(4, 2,"Blue")
-        self.character[0].setLocation(4, 2)
+        self.blue.setLocation(4, 2)
         self.table.setTile(2, 4, "Red")
-        self.character[1].setLocation(2, 4)
+        self.red.setLocation(2, 4)
         self.table.setTile(2, 0, "Yellow")
-        self.character[2].setLocation(2, 0)
+        self.yellow.setLocation(2, 0)
         super().show_stage(screen)
         
         

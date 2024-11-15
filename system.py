@@ -56,11 +56,4 @@ class Music:
     def music_stop(self):
         Music.bgm.stop()
 
-class Keys:
-    def __init__(self):
-        self.up = pygame.K_w
-        self.left = pygame.k_a
-        self.down = pygame.k_s
-        self.right = pygame.k_d
-        
     
