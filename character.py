@@ -44,7 +44,7 @@ class Character:
     def setLocation(self, x, y):
         self.location_x = x
         self.location_y = y
-    
+
     def getAnima(self):
         return self.anima[0]
     
