@@ -33,7 +33,7 @@ class Button:
         # 버튼 텍스트 그리기
         text_rect = button_text.get_rect(center=self.rect.center)
         screen.blit(button_text, text_rect)
-    
+        
     
 # 현재 화면 상태 확인
 class ScreenChange:

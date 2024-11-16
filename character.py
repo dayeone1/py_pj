@@ -53,9 +53,6 @@ class Character:
 
     def animaStop(self):
         self.animaCheck = False
-        
-    
-    
 
 # player 캐릭터
 class Red(Character):
