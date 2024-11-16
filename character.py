@@ -2,22 +2,25 @@ import pygame
 import sys
 
 class Character: 
-    def __init__(self, color, main_img, box, index, index_click, anima):
+    def __init__(self, color = "", main_img = "", box ="", index = "", index_click = "", anima = ""):
         
-        self.stamina = 100          # 캐릭터의 체력
+        self.heart = 100          # 캐릭터의 체력
         self.color = color          # 캐릭터의 색
         self.animaCheck = False     # 애니메이션 실행 여부
         self.main_img = pygame.image.load(main_img) # 메인 일러
-        self.box = pygame.image.load(box) # ui 1(박스)
-        self.index = pygame.image.load(index) # ui 2(인덱스)
-        self.index_click = pygame.image.load(index_click) # 인덱스 클릭 여부
-        # 애니메이션 파일
-        self.anima = [
-            pygame.image.load(anima[0]),pygame.image.load(anima[1]),pygame.image.load(anima[2])
-        ]
+        
+        if box:
+            self.box = pygame.image.load(box) # ui 1(박스)
+            self.index = pygame.image.load(index) # ui 2(인덱스)
+            self.index_click = pygame.image.load(index_click) # 인덱스 클릭 여부
+            # 애니메이션 파일
+            self.anima = [
+                pygame.image.load(anima[0]),pygame.image.load(anima[1]),pygame.image.load(anima[2])
+            ]
         # 캐릭터의 현재 위치
         self.location_x = 0
         self.location_y = 0
+
     
     def getMainImg(self):
         return self.main_img
@@ -72,5 +75,28 @@ class Blue(Character):
         self.anima = ["img/character/anima_blue_0.png", "img/character/anima_blue_1.png", "img/character/anima_blue_2.png"]
         super().__init__("blue", "img/character/character_blue.png", "img/interface/box_blue.png",
                          "img/interface/index_blue.png", "img/interface/index_blue_click.png", self.anima)
+    
+# 몬스터 파일
+class Rabbit(Character):
+    def __init__(self):
+        super().__init__("Rabbit","img/character/rabbit_white.png")
+        self.color_list = {
+            "White": pygame.image.load("img/character/rabbit_white.png"),
+            "Red": pygame.image.load("img/character/rabbit_red.png"),
+            "Yellow": pygame.image.load("img/character/rabbit_yellow.png"),
+            "Blue": pygame.image.load("img/character/rabbit_blue.png"),
+            "Green": pygame.image.load("img/character/rabbit_green.png"),
+            "Orange": pygame.image.load("img/character/rabbit_orange.png"),
+            "Purple": pygame.image.load("img/character/rabbit_purple.png"),
+            "Black": pygame.image.load("img/character/rabbit_black.png"),
+        }
+        
+        self.color = "White"
+        
+    def setColor(self, color):
+        print(0)
+        self.main_img = self.color_list[color]
+        self.color = color
 
-
+    def getColor(self):
+        return self.color

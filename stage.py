@@ -60,7 +60,8 @@ class Stage:
         
         self.background = pygame.image.load("img/back/tree_1.png")
         self.base = pygame.image.load("img/tile/base.png")
-        self.stamina_box = pygame.image.load("img/interpace/stamina_box.png")
+        
+        self.stamina_box = pygame.image.load("img/interface/stamina_box.png")
         
         self.attack_on = pygame.image.load("img/interface/attack_button.png")
         self.attack_click = pygame.image.load("img/interface/attack_button_click.png")
@@ -82,6 +83,7 @@ class Stage:
         }
         
         self.character = [Blue(), Red(), Yellow()]
+        self.rabbit = Rabbit()
         
         self.xy = [(720, 470), (489, 7)] # 캐릭터, uiBox 좌표값
         self.attack_arear = []
@@ -90,6 +92,7 @@ class Stage:
         self.button_blue = Button("", self.character[0].getIndex(), self.character[0].getIndexClick(), 823, 395, 120, 75, lambda: self.setColor("Blue"))
         self.button_red = Button("", self.character[1].getIndex(), self.character[1].getIndexClick(), 1062 , 395, 120, 75, lambda: self.setColor("Red"))
         self.button_yellow = Button("", self.character[2].getIndex(), self.character[2].getIndexClick(), 942, 395, 120, 75, lambda: self.setColor("Yellow"))
+        
         
         # 공격, 이동
         self.button_attack = Button("attack", self.attack_on, self.attack_click, 755, 503, 410, 70, lambda: self.setEvent(1))
@@ -108,7 +111,6 @@ class Stage:
         self.max_stamina = stamina # max 턴 수
         self.paint = 0 # 공격 지점
         self.tel = 0 # 이동 지점
-        
         
     def show_stage(self, screen):
         
@@ -135,6 +137,13 @@ class Stage:
         screen.blit(self.character[2].getAnima(), (107 + self.table.getTileGap() * self.character[2].getLocationX(), 
                                         32 + self.table.getTileGap() * self.character[2].getLocationY()))
         
+        screen.blit(self.rabbit.getMainImg(),(107 + self.table.getTileGap() * self.rabbit.getLocationX(), 
+                                        32 + self.table.getTileGap() * self.rabbit.getLocationY()))
+        
+        # 남은 스테미나 표시
+        self.button_stamina_box = Button(str(self.stamina), self.stamina_box, self.stamina_box, 85, 564, 105, 105, None)
+        self.button_stamina_box.draw(screen)
+        
         # 선택된 컬러의 함수 저장용
         self.select_color = self.character[self.colorSheet[self.color]]
         
@@ -142,7 +151,10 @@ class Stage:
         screen.blit(self.select_color.getBox(), self.xy[0])
         
         # 현재 상태
-        if self.event == 3:
+        if self.rabbit.getColor() == "Black":
+            screenChange = ScreenChange()
+            screenChange.setScreen(0)
+        if self.stamina <= 0:
             self.defense(screen)
         elif self.event == 0:
             self.default(screen) 
@@ -215,10 +227,26 @@ class Stage:
                 self.table.setTile(x, y,"Orange")
             elif (tile_color == "Blue" and self.color == "Red") or (tile_color == "Red" and self.color == "Blue"):
                 self.table.setTile(x, y,"Purple")
+            else:
+                self.table.setTile(x, y,"Black")
                 
-        self.stamina += 1
+        if self.rabbit.getLocationX() == y and self.rabbit.getLocationY() == x:
+            tile_color = self.rabbit.getColor()
+            
+            if tile_color == "White":
+                self.rabbit.setColor(self.color)
+            elif tile_color != self.color and tile_color != "Black":
+                if (tile_color == "Yellow" and self.color == "Blue") or (tile_color == "Blue" and self.color == "Yellow"):
+                    self.rabbit.setColor("Green")
+                elif (tile_color == "Yellow" and self.color == "Red") or (tile_color == "Red" and self.color == "Yellow"):
+                    self.rabbit.setColor("Orange")
+                elif (tile_color == "Blue" and self.color == "Red") or (tile_color == "Red" and self.color == "Blue"):
+                    self.rabbit.setColor("Purple")
+                else:
+                    self.rabbit.setColor("Black")
+                
+        self.stamina -= 1
         self.setEvent(0)
-       
         
     def setColor(self, color):
         self.color = color 
@@ -247,7 +275,6 @@ class Stage:
                 elif self.table.getTileColor(i,j) != self.color:
                     if self.color == "Blue":
                         if (self.table.getTileColor(i, j) != "Green" and self.table.getTileColor(i, j) != "Purple"):
-                            print(i, j)
                             continue
                     elif self.color == "Yellow":
                         if (self.table.getTileColor(i, j) != "Green" and self.table.getTileColor(i, j) != "Orange"):
@@ -290,7 +317,10 @@ class Stage:
     
     # event 3
     def defense(self, screen):
-        return None
+        pygame.event.wait(1000)
+        
+        self.event = 0
+        self.stamina = self.max_stamina
         
 class Stage_1(Stage):
     def __init__(self):
@@ -307,6 +337,9 @@ class Stage_1(Stage):
         self.table.setTile(2, 0, "Yellow")
         self.table.setCharL(2, 0,"Yellow")
         self.character[2].setLocation(2, 0)
+        
+        self.table.setCharL(0, 2, "mop")
+        self.rabbit.setLocation(0, 2)
     
     def show_stage(self, screen):
         super().show_stage(screen)

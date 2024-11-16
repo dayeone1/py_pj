@@ -35,7 +35,7 @@ exit_button = Button("EXIT", start_button_on, start_button_act, 420, 575, button
 
 # 메인 루프
 start = True
-# music.music_play()
+music.music_play()
 
 while start:
     clock.tick(30)
